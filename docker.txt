@@ -1,0 +1,26 @@
+docker-compose build && docker-compose up -d
+docker-compose down
+docker-compose ps
+
+docker-compose exec mysql bash
+mysql -uroot -proot
+
+создаем новую базу данных
+CREATE DATABASE learn CHARACTER SET utf8;
+
+создаем пользователя
+CREATE USER 'student'@'%' IDENTIFIED BY 'student';
+
+даем пользователю права на базу данных
+GRANT ALL PRIVILEGES ON learn.* TO 'student'@'%' WITH GRANT OPTION;
+
+для тог чтобы изменения вступили в силу надо выполнить команду
+FLUSH PRIVILEGES;
+выходим из mysql \quit;
+
+заходим в mysql под новым пользователем
+mysql -u student -pstudent
+show databases;
+
+для того чтобы импортировать дамп в консоли (используя докер), зайти в папку где лежит dump.sql выполнить команду:
+docker exec -i (container ID) mysql -ustudent -pstudent learn < dump.sql
